@@ -1,0 +1,8 @@
+/target/
+.claude/settings.local.json
+
+# 분석 결과물·캐시
+*.analysis.json
+.syncity/
+
+.DS_Store

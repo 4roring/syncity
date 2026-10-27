@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "model": "opus",
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(cargo build *)",
+      "Bash(cargo check *)",
+      "Bash(cargo test *)",
+      "Bash(cargo clippy *)",
+      "Bash(cargo fmt *)",
+      "Bash(cargo run *)",
+      "Bash(cargo tree *)",
+      "Bash(cargo metadata *)",
+      "Bash(rustfmt *)",
+      "Bash(lizard *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ],
+    "deny": [
+      "Bash(p4 submit *)",
+      "Bash(p4 edit *)",
+      "Bash(p4 add *)",
+      "Bash(p4 delete *)",
+      "Bash(p4 move *)",
+      "Bash(p4 revert *)",
+      "Bash(p4 sync *)",
+      "Bash(p4 integrate *)",
+      "Bash(p4 resolve *)",
+      "Bash(p4 shelve *)",
+      "Bash(p4 unshelve *)",
+      "Bash(p4 change *)",
+      "Bash(p4 client *)",
+      "Bash(p4 obliterate *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath // empty' | { read -r f; case \"$f\" in *.rs) rustfmt --edition 2024 \"$f\";; esac; } 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "rustfmt"
+          }
+        ]
+      }
+    ]
+  }
+}
