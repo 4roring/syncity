@@ -15,7 +15,9 @@
 - [ ] `tests/fixtures/cpp` 샘플과 기대값 테스트
 - [ ] lizard와 CC 비교 검증 (`/verify-metrics`, 외부 PC에서 픽스처와 공개 C++ 프로젝트로)
 - [ ] `syncity diagnose`: error_ratio 상위 파일, 매크로 후보 식별자 빈도 ([D8](DECISIONS.md))
-- [ ] GitHub Actions: `windows-latest`에서 정적 CRT로 `syncity.exe` 빌드, artifact 업로드 ([D7](DECISIONS.md))
+- [ ] `.cargo/config.toml`: msvc 타깃 `+crt-static` ([D7](DECISIONS.md))
+- [ ] README에 Windows 빌드 방법 (rustup, VS Build Tools, `cargo build --release`)
+- [ ] (보조) GitHub Actions: `windows-latest` 빌드와 테스트, exe artifact 업로드
 - [ ] Windows 경로 처리 테스트 (`\` 구분자, 드라이브 문자)
 - [ ] 회사 PC에서 exe 실행 → `diagnose` 결과로 매크로 목록 보강
 

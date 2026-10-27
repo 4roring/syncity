@@ -51,7 +51,7 @@ cargo run -p syncity-cli -- analyze tests/fixtures/cpp --pretty
 
 ## 실행 환경
 
-- 실제 사용처는 **폐쇄망 Windows PC**다. GitHub Actions로 빌드한 `syncity.exe` 하나만 반입한다 ([D7](docs/DECISIONS.md)).
+- 실제 사용처는 **폐쇄망 Windows PC**다. 회사 외부망 PC에서 `cargo build --release`로 만든 `syncity.exe` 하나만 반입한다 ([D7](docs/DECISIONS.md)).
 - 개발 PC는 macOS지만 Windows에서 동작해야 한다. 경로는 `std::path`로 다루고, 출력할 때만 `/`로 정규화한다.
 - 런타임에 외부 파일, 네트워크, 환경 설치를 요구하는 기능을 만들지 않는다.
 

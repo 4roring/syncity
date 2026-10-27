@@ -30,9 +30,11 @@
 
 ## D7. 폐쇄망 Windows에는 단일 exe로 반입
 - **결정:**
-  - 개발과 검증은 외부(인터넷 가능) PC에서 한다.
-  - 회사에는 GitHub Actions(`windows-latest`, `x86_64-pc-windows-msvc`)로 빌드한 `syncity.exe` 하나만 반입한다.
-  - CRT를 정적 링크(`-C target-feature=+crt-static`)해서 VC++ 재배포 패키지 없이 실행되게 한다.
+  - 개발과 검증은 개인 PC에서 하고, 저장소는 public으로 둔다 (개인 프로젝트).
+  - **기본 빌드 경로:** 회사의 외부망 접근 가능 Windows PC에서 `git clone` 후 `cargo build --release`로 빌드한다. 만든 `syncity.exe` 하나를 개발망으로 옮긴다.
+  - 보조 경로로 GitHub Actions(`windows-latest`) artifact도 제공한다.
+  - 타깃은 `x86_64-pc-windows-msvc`이다. CRT 정적 링크(`+crt-static`)는 저장소의 `.cargo/config.toml`에 넣어서, 로컬 빌드와 CI 빌드 모두 VC++ 재배포 패키지 없이 실행되게 한다.
+  - 빌드 PC에 필요한 것: rustup(MSVC 툴체인), Visual Studio Build Tools(C++). tree-sitter의 C 코드를 컴파일하는 데 쓰인다.
 - **이유:**
   - 회사는 폐쇄망이라 런타임이나 패키지를 설치하기 어렵고, Claude Code도 쓸 수 없다.
   - tree-sitter는 C 코드라서 빌드할 때 실행 파일 안에 들어가므로 외부 의존성이 없다.

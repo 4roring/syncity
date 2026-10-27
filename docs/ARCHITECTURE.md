@@ -95,13 +95,17 @@ strip_macros = ["DLLEXPORT", "API_EXPORT", "FORCEINLINE"]
 ## 배포 (폐쇄망 Windows)
 
 ```
-[외부 PC] 개발 → git push → [GitHub Actions windows-latest] 빌드 → syncity.exe (artifact)
-                                                                        │ 반입
-                                                                        ▼
-                                               [회사 Windows PC] syncity.exe analyze D:\p4\project
+[개인 PC] 개발 → git push (GitHub public)
+                    │
+                    ▼
+[회사 외부망 PC (Windows)] git clone → cargo build --release → syncity.exe
+                    │ 반입                    (보조: GitHub Actions artifact)
+                    ▼
+[회사 개발망 PC (Windows)] syncity.exe analyze D:\p4\project
 ```
 
-- 타깃은 `x86_64-pc-windows-msvc`이며 CRT를 정적 링크한다. exe 하나로 실행되고 설치가 필요 없다.
+- 타깃은 `x86_64-pc-windows-msvc`이다. `.cargo/config.toml`에서 CRT를 정적 링크하므로, exe 하나로 실행되고 설치가 필요 없다.
+- 빌드 PC에는 rustup(MSVC)과 Visual Studio Build Tools(C++)가 필요하다.
 - 회사에서 문제가 생기면 `syncity diagnose`로 원인을 확인한다. 코드를 밖으로 가져오지 않고 매크로 이름 등 요약 정보만 가져온다 ([D8](DECISIONS.md)).
 
 ## 하지 않는 것 (v1)
